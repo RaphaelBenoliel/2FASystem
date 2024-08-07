@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import Enable2FA from './Enable2FA';
 
 const Login = () => {
     const [username, setUsername] = useState('');
@@ -8,6 +9,7 @@ const Login = () => {
     const [token, setToken] = useState('');
     const [message, setMessage] = useState('');
     const [hasTwoFA, setHasTwoFA] = useState(false);
+    const [isFirstAuth, setIsFirstAuth] = useState(false);
     const navigate = useNavigate();
 
     const handleLogin = async (e) => {
@@ -19,14 +21,14 @@ const Login = () => {
             });
 
             setMessage(response.data.message);
-
+            console.log(response.data);
+            setHasTwoFA(true);
             if (response.data.hasTwoFA) {
-                setMessage('2FA enabled, please enter the token');
+
                 setHasTwoFA(true);
             } else {
-                // Store the token and redirect to dashboard
-                localStorage.setItem('jwtToken', response.data.token);
-                navigate('/dashboard');
+                setIsFirstAuth(true);
+                setHasTwoFA(true);
             }
         } catch (error) {
             setMessage(error.response?.data?.message || 'Failed to login');
@@ -57,29 +59,34 @@ const Login = () => {
         <div>
             <h2>Login</h2>
             <form onSubmit={hasTwoFA ? handle2FA : handleLogin}>
-                <input
+                {!hasTwoFA && (
+                <><input
                     type="text"
                     placeholder="Username"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    required
-                />
+                    required />
                 <input
                     type="password"
                     placeholder="Password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+                    required /></>
+                )}  
+                    {isFirstAuth && (
+                    <Enable2FA 
+                    route={username}/>
+
+                        )}
+                
                 {hasTwoFA && (
-                    <input
-                        type="text"
-                        placeholder="2FA Token"
-                        value={token}
-                        onChange={(e) => setToken(e.target.value)}
-                        required
-                    />
-                )}
+                <input
+                    type="text"
+                    placeholder="2FA Token"
+                    value={token}
+                    onChange={(e) => setToken(e.target.value)}
+                    required />
+            )}
                 <button type="submit">{hasTwoFA ? 'Verify 2FA' : 'Login'}</button>
             </form>
             <p>{message}</p>
