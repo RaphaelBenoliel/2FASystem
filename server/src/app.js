@@ -1,15 +1,23 @@
+require('dotenv').config(); // Load environment variables
 const express = require('express');
+const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const cors = require('cors');
 const routes = require('./routes');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
-app.use(bodyParser.json());
-app.use('/api', routes);
-
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+// MongoDB connection using environment variables
+mongoose.connect(process.env.MONGODB_URI, {
+})
+.then(() => console.log('MongoDB connected'))
+.catch(err => {
+    console.error('MongoDB connection failed:', err.message);
+    process.exit(1);
 });
 
-module.exports = app;
+app.use(cors());
+app.use(bodyParser.json());
+app.use(routes);
+
+module.exports = app; // Export the app for use in server and tests
