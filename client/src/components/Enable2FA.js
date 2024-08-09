@@ -89,7 +89,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
 const Enable2FA = ({ route }) => {
-    const [username, setUsername] = useState(route);  // Initialize directly from props
+    const [username, setUsername] = useState(route);  
     const [message, setMessage] = useState('');
     const [qrCode, setQrCode] = useState('');
 
@@ -100,7 +100,7 @@ const Enable2FA = ({ route }) => {
                 const response = await axios.post('http://localhost:3000/api/enable-2fa', {
                     username,
                 });
-                setMessage(response.data.message);
+                // setMessage(response.data.message);
                 setQrCode(response.data.qrcode);
             } catch (error) {
                 console.error('Enable 2FA Error:', error.response?.data || error.message);
@@ -117,9 +117,9 @@ const Enable2FA = ({ route }) => {
         <div>
             {qrCode && (
                 <div className="qr-container">
-                    <p>Scan this QR code using one of the following apps:</p>
                     <img src={qrCode} alt="QR Code" />
                     <div className="app-links">
+                    <p>Scan this QR code using one of the following apps:</p>
                         <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.authenticator2" target="_blank" rel="noopener noreferrer">
                             <img src="/images/google-authenticator.png" alt="Google Authenticator" />
                             Google Authenticator
@@ -132,6 +132,7 @@ const Enable2FA = ({ route }) => {
                             <img src="/images/authy.png" alt="Authy" />
                             Authy
                         </a>
+                        
                     </div>
                 </div>
             )}
