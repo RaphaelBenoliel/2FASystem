@@ -1,8 +1,5 @@
-# 2FASystem
-Two-Factor Authentication (2FA) System for a web application to enhance security.
-
-
 # Two-Factor Authentication System
+Two-Factor Authentication (2FA) System for a web application to enhance security.
 
 ## Features
 
@@ -16,24 +13,23 @@ Two-Factor Authentication (2FA) System for a web application to enhance security
 
 ### 1. Clone the repository:
 
-\`\`\`bash
+```
 git clone https://github.com/yourusername/2FASystem.git
 cd 2FASystem
-\`\`\`
-
+```
 ### 2. Install server dependencies:
 
-\`\`\`bash
+```
 cd server
 npm install
-\`\`\`
+```
 
 ### 3. Install client dependencies:
 
-\`\`\`bash
+```
 cd ../client
 npm install
-\`\`\`
+```
 
 ### 4. Set up environment variables:
 
@@ -41,33 +37,33 @@ Create a \`.env\` file in both the \`client\` and \`server\` directories with th
 
 #### For the server:
 
-\`\`\`env
+```
 MONGO_URI=<your_mongo_db_connection_string>
 JWT_SECRET=<your_jwt_secret>
 PORT=3000
-\`\`\`
+```
 
 #### For the client:
 
-\`\`\`env
+```
 REACT_APP_API_URL=http://localhost:3000
-\`\`\`
+```
 
 ## Running the Application
 
 ### 1. Run the server:
 
-\`\`\`bash
+```
 cd server
 npm run dev
-\`\`\`
+```
 
 ### 2. Run the client:
 
-\`\`\`bash
+```
 cd client
 npm start
-\`\`\`
+```
 
 The client will run on \`http://localhost:3001\` by default, and the server on \`http://localhost:3000\`.
 
@@ -75,14 +71,14 @@ The client will run on \`http://localhost:3001\` by default, and the server on \
 
 To run the tests for the backend:
 
-\`\`\`bash
+```
 cd server
 npm run test
-\`\`\`
+```
 
 ## Styles and Design
 
-The application features a clean and modern design with consistent styles across all pages. All pages, including the Login, Register, Enable 2FA, Verify 2FA, and Dashboard, share a unified look and feel.
+The application features a clean and modern design with consistent styles across all pages. All pages, including the Login, Register and Dashboard, share a unified look and feel.
 
 ## Technologies Used
 
