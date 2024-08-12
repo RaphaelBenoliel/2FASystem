@@ -86,8 +86,3 @@ The application features a clean and modern design with consistent styles across
 
 - Ensure that MongoDB is running and accessible via the `MONGO_URI` in the server's `.env` file.
 - If you encounter issues with JWT, make sure that the `JWT_SECRET` is consistent and properly set in your environment variables.
-
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
