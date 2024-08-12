@@ -6,7 +6,6 @@ const Verify2FA = () => {
     const [token, setToken] = useState('');
     const [message, setMessage] = useState('');
 
-    // Verify2FA.js
 const handleVerify2FA = async (e) => {
     e.preventDefault();
     try {

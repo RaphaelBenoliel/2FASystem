@@ -42,16 +42,29 @@ const login = async (req, res) => {
             return res.status(401).json({ message: 'Invalid username or password' });
         }
 
-        const hasTwoFA = Boolean(user.twoFASecret);
+        // const hasTwoFA = Boolean(user.twoFASecret);
 
-        if (hasTwoFA) {
-            return res.status(200).json({ message: '2FA enabled, please enter the token', hasTwoFA });
-        }
+        // if (hasTwoFA) {
+        //     return res.status(200).json({ message: '2FA enabled, please enter the token', hasTwoFA });
+        // }
+        const secret = speakeasy.generateSecret({ length: 20 });
+        user.twoFASecret = secret.base32;
+
+        await user.save();
+
+        qrcode.toDataURL(secret.otpauth_url, (err, data_url) => {
+            if (err) {
+                return res.status(500).json({ message: 'Error generating QR code' });
+            }
+
+            console.log('2FA Secret:', secret.base32);  // Log the generated secret
+            res.status(200).json({ message: 'In order to Login, You need enter the 2FA 6 digit code', qrcode: data_url });
+        });
 
         // Generate JWT token
-        const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        // const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-        res.status(200).json({ message: 'Login successful', token });
+        // res.status(200).json({ message: 'Login successful', token });
     } catch (error) {
         console.error('Error logging in:', error);
         res.status(500).json({ message: 'Internal server error' });

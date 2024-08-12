@@ -67,7 +67,7 @@ describe('User Authentication', () => {
             });
 
         expect(response.statusCode).toBe(200);
-        expect(response.body.message).toContain('2FA enabled');
+        expect(response.body.message).toContain('In order to Login, You need enter the 2FA 6 digit code');
     });
 
     test('Enable 2FA for a user', async () => {
