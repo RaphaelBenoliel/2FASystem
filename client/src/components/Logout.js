@@ -18,7 +18,7 @@ const Logout = ({ onAuthenticate }) => {
     return (
         <div className="logout-container">
             <div className="logout-content">
-                <h1>You have successfully logged out!</h1>
+                <p className='notification'>You have successfully logged out!</p>
                 <p>Thank you for using our system.</p>
                 <p>Redirecting to login page...</p>
                 <div className="loading-spinner"></div>

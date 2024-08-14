@@ -10,6 +10,7 @@ const Login = ({ onAuthenticate }) => {
     const [password, setPassword] = useState('');
     const [token, setToken] = useState('');
     const [message, setMessage] = useState('');
+    const [messageError, setMessageError] = useState('');
     const [hasTwoFA, setHasTwoFA] = useState(false);
     const [loading, setLoading] = useState(false);
     const [qrCode, setQrCode] = useState('');
@@ -32,14 +33,15 @@ const Login = ({ onAuthenticate }) => {
                 username,
                 password,
             });
-            console.log('hereeeeee',response.data);
             setQrCode(response.data.qrcode);
             setMessage(response.data.message);
+            setMessageError('');
             setHasTwoFA(true);
            
         } catch (error) {
             console.error('Login Error:', error.response?.data || error.message);
-            setMessage(error.response?.data?.message || 'Failed to login');
+            setMessage('');
+            setMessageError(error.response?.data?.message || 'Failed to login');
         }finally{
             setTimeout(() => {
                 setLoading(false);
@@ -69,7 +71,9 @@ const Login = ({ onAuthenticate }) => {
                 }, 2000);
             }
         } catch (error) {
-            setMessage(error.response?.data?.message || 'Invalid 2FA token');
+            
+            setMessageError(error.response?.data?.message || 'Invalid 2FA token');
+            setMessage('Enter the valid 2FA token from your authenticator app');
         } finally {
             setTimeout(() => {
                 setLoading(false);
@@ -109,7 +113,7 @@ const Login = ({ onAuthenticate }) => {
                         <Enable2FA route={qrCode} />
                         <input
                             type="text"
-                            placeholder="2FA Token"
+                            placeholder="6-Digit Code (e.g., 123456)"
                             value={token}
                             onChange={(e) => setToken(e.target.value)}
                             required
@@ -118,7 +122,11 @@ const Login = ({ onAuthenticate }) => {
                 )}
                 <button type="submit">{hasTwoFA ? 'Verify 2FA' : 'Login'}</button>
             </form>
-            <p className='message'>{message}</p>
+            {messageError&& (
+                <div className='notification-error'>{messageError}</div>)}
+            {message && (
+                <div className='notification'>{message}</div>
+            )}
             </>
             )}
         </div>
